@@ -1,0 +1,3 @@
+[submodule "ddLoongKernel"]
+	path = ddLoongKernel
+	url = https://github.com/HulunbuirLab/ddLoongKernel.git
