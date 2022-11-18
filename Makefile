@@ -1,3 +1,14 @@
+ARCH = loongarch64
+TOOLPREFIX = loongarch64-unknown-linux-gnu-
+CC = $(TOOLPREFIX)gcc
+CXX = $(TOOLPREFIX)g++
+AS = $(TOOLPREFIX)gas
+LD = $(TOOLPREFIX)ld
+OBJCOPY = $(TOOLPREFIX)objcopy
+OBJDUMP = $(TOOLPREFIX)objdump
+
+export ARCH TOOLPREFIX CC CXX AS LD OBJCOPY OBJDUMP
+
 .PHONY: all kernel bootloader install
 
 all: kernel bootloader
@@ -11,8 +22,8 @@ bootloader:
 install: kernel bootloader
 	[ -f a.img ] || (qemu-img create a.img 10M && mkfs.fat a.img) ;\
 	mount a.img /mnt ;\
-	cp bootloader/hello.efi /mnt ;\
-	cp kernel/kernel /mnt ;\
+	cp simpleBootloader/hello.efi /mnt ;\
+	cp ddLoongKernel/kernel /mnt ;\
 	umount -R /mnt
 
 qemu: install

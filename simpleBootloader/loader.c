@@ -2,11 +2,10 @@
 #include <efilib.h>
 #include <stdbool.h>
 
-#include "bootloader/elf_parse.h"
-#include "bootloader/fileops.h"
-#include "kernel/include/xtos.h"
+#include "simpleBootloader/elf_parse.h"
+#include "simpleBootloader/fileops.h"
 
-#include "bootloader/efiConsoleControl.h"
+#include "simpleBootloader/efiConsoleControl.h"
 
 EFI_STATUS
 get_memory_map(OUT void **map, OUT UINTN *mem_map_size, OUT UINTN *mem_map_key,
@@ -185,12 +184,7 @@ efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable) {
     // Execute kernel if we are successful
     if (status == EFI_SUCCESS) {
       // Jump to kernel code
-      KernelInfo info = {.xdsp_address = xdsp_address,
-                         .memory_map = mem_map,
-                         .mem_map_size = mem_map_size,
-                         .mem_map_descriptor_size = mem_map_descriptor_size,
-                         .gop = gop};
-      ((KernelMainFunc)kernel_main_addr)(info);
+      ((void(*)())kernel_main_addr)();
     }
   }
 

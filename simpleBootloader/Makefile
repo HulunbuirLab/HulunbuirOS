@@ -1,4 +1,3 @@
-ARCH            = loongarch64
 OBJS            = fileops.o elf_parse.o loader.o
 TARGET          = hello.efi
 EFIINC          = ../gnu-efi/efi
@@ -8,13 +7,6 @@ EFI_CRT_OBJS    = $(LIB)/crt0-efi-$(ARCH).o
 EFI_LDS         = $(LIB)/elf_$(ARCH)_efi.lds
 CFLAGS          = $(EFIINCS) -I../ -fno-stack-protector -fpic \
                   -fshort-wchar -Wall
-
-TOOLPREFIX = loongarch64-unknown-linux-gnu-
-CC = $(TOOLPREFIX)gcc
-AS = $(TOOLPREFIX)gas
-LD = $(TOOLPREFIX)ld
-OBJCOPY = $(TOOLPREFIX)objcopy
-OBJDUMP = $(TOOLPREFIX)objdump
 
 CFLAGS += -march=loongarch64 -mabi=lp64d -g -O2\
 	  -fno-strict-aliasing \
