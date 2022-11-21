@@ -1,3 +1,6 @@
 [submodule "ddLoongKernel"]
 	path = ddLoongKernel
 	url = https://github.com/HulunbuirLab/ddLoongKernel.git
+[submodule "gnu-efi"]
+	path = gnu-efi
+	url = https://github.com/loongarch64/gnu-efi.git

@@ -1,10 +1,11 @@
 OBJS            = fileops.o elf_parse.o loader.o
 TARGET          = hello.efi
-EFIINC          = ../gnu-efi/efi
+EFIINC          = ../gnu-efi/inc
 EFIINCS         = -I$(EFIINC) -I$(EFIINC)/$(ARCH) -I$(EFIINC)/protocol
-LIB             = ../gnu-efi/lib
-EFI_CRT_OBJS    = $(LIB)/crt0-efi-$(ARCH).o
-EFI_LDS         = $(LIB)/elf_$(ARCH)_efi.lds
+EFILIB             = ../gnu-efi/$(ARCH)/gnuefi
+LIB		= ../gnu-efi/$(ARCH)/lib
+EFI_CRT_OBJS    = $(EFILIB)/crt0-efi-$(ARCH).o
+EFI_LDS         = ../gnu-efi/gnuefi/elf_$(ARCH)_efi.lds
 CFLAGS          = $(EFIINCS) -I../ -fno-stack-protector -fpic \
                   -fshort-wchar -Wall
 
@@ -14,7 +15,7 @@ CFLAGS += -march=loongarch64 -mabi=lp64d -g -O2\
           $(if $(findstring gcc,$(CC)),-fno-merge-all-constants,)
 
 LDFLAGS         = -nostdlib --no-undefined -shared \
-                  --build-id=sha1 -Bsymbolic --defsym=EFI_SUBSYSTEM=0xa -T $(EFI_LDS) -L $(LIB) $(EFI_CRT_OBJS) \
+                  --build-id=sha1 -Bsymbolic --defsym=EFI_SUBSYSTEM=0xa -T $(EFI_LDS) -L $(EFILIB) -L $(LIB) $(EFI_CRT_OBJS)
 
 all: $(TARGET)
 
