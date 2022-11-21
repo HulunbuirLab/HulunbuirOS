@@ -4,3 +4,6 @@
 [submodule "gnu-efi"]
 	path = gnu-efi
 	url = https://github.com/loongarch64/gnu-efi.git
+[submodule "simpleBootloader"]
+	path = simpleBootloader
+	url = https://github.com/HulunbuirLab/simpleBootloader.git
