@@ -27,19 +27,32 @@ install: kernel bootloader
 	umount -R /mnt
 
 qemu: install
-	./qemu-system-loongarch64 -m 1G \
+	qemu-system-loongarch64 -m 1G \
 	--cpu la464 \
 	--machine virt \
 	-usb \
 	-device usb-ehci,id=ehci \
-	-bios ./QEMU_EFI.fd \
+	-bios /usr/share/qemu/qemu-loongarch.fd \
+	-drive id=disk,file=a.img,if=none \
+	-device ahci,id=ahci \
+	-device ide-hd,drive=disk,bus=ahci.0 \
+	-vga std \
+	-device usb-kbd
+
+qemu-debug: install
+	qemu-system-loongarch64 -m 1G \
+	--cpu la464 \
+	--machine virt \
+	-usb \
+	-device usb-ehci,id=ehci \
+	-bios /usr/share/qemu/qemu-loongarch.fd \
 	-drive id=disk,file=a.img,if=none \
 	-device ahci,id=ahci \
 	-device ide-hd,drive=disk,bus=ahci.0 \
 	-vga std \
 	-device usb-kbd \
-	-monitor stdio
+	-s -S
 
 clean:
-	cd kernel && make clean && cd .. &&\
-	cd bootloader && make clean
+	make -C ddLoongKernel clean
+	make -C simpleBootloader clean

@@ -1,3 +1,4 @@
 .kdev4/
 *.kdev4
 simpleBootloader/hello.efi
+a.img
